@@ -1,13 +1,11 @@
 from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 
-import hashlib
-import base64
-import re
-import time
-import secrets
+import hashlib, base64, re, time, secrets, bcrypt
 from typing import Optional
 import pandas as pd
+
+salt = bcrypt.gensalt()
 
 origins = [
     "http://localhost:5173",  # your React dev server
@@ -73,10 +71,28 @@ def login(data: dict, response: Response):
     email = data.get("email")
     password = data.get("password")
 
-    user = check_user_exists(email, password)
+    # user = check_user_exists(email, password)
+    df = load_users()
+    user = df[(df["email"] == email)]
+
+    stored_password = user["password"].iloc[0] if not user.empty else None
+    if stored_password is not None:
+        try:
+            if not bcrypt.checkpw(
+                password.encode("utf-8"), stored_password.encode("utf-8")
+            ):
+                return {"status": "error", "message": "Invalid password"}
+        except:
+            return {"status": "error", "message": "Invalid password"}
+
+    if user.empty:
+        user = None
+    else:
+        user = user.iloc[0].to_dict()
 
     if user is None:
-        raise HTTPException(status_code=401, detail="Invalid email or password")
+        # raise HTTPException(status_code=401, detail="Invalid email or password")
+        return {"status": "error", "message": "Invalid email or password"}
 
     # Set a simple session cookie
     response.set_cookie(
@@ -94,18 +110,26 @@ def login(data: dict, response: Response):
 def signup(data: dict):
     email = data.get("email")
     password = data.get("password")
+    confirmpass = data.get("confirmpass")
     fname = data.get("fname")
     lname = data.get("lname")
+
+    if password != confirmpass:
+        # raise HTTPException(status_code=400, detail="Passwords do not match")
+        return {"status": "error", "message": "Passwords do not match"}
 
     df = load_users()
 
     if not df[df["email"] == email].empty:
-        raise HTTPException(status_code=400, detail="Email already exists")
+        # raise HTTPException(status_code=400, detail="Email already exists")
+        return {"status": "error", "message": "Email already exists"}
+
+    encrypted_password = bcrypt.hashpw(password.encode("utf-8"), salt).decode("utf-8")
 
     new_user = {
         "uuid": gen_uuid(),
         "email": email,
-        "password": password,
+        "password": encrypted_password,
         "fname": fname,
         "lname": lname,
     }

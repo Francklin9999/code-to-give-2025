@@ -16,6 +16,7 @@ const Login: React.FC = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmpass, setConfirmpass] = useState("");
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
 
@@ -26,7 +27,7 @@ const Login: React.FC = () => {
             : "http://localhost:8000/signup";
         const payload = isFirstVisit
             ? { email, password }
-            : { email, password, fname, lname };
+            : { email, password, confirmpass, fname, lname };
         const response = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -72,6 +73,15 @@ const Login: React.FC = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
+                {!isFirstVisit && (
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={confirmpass}
+                        onChange={(e) => setConfirmpass(e.target.value)}
+                        required
+                    />
+                )}
                 <button type="submit">
                     {isFirstVisit ? "Login" : "Sign Up"}
                 </button>
