@@ -106,7 +106,7 @@ export default function PathTransitionSection({ onAboutClick }) {
       </div>
 
       {/* TEXT + CTA */}
-      <div className="relative z-20 flex flex-col items-center text-center px-4">
+      <div className="relative z-20 flex flex-col items-center text-center px-4 pt-32 md:pt-0">
         {/* Source: https://www.canadahelps.org/fr/organismesdebienfaisance/le-bouclier-dathena-the-shield-of-athena/impact/view/ */}
         <h1 className="text-4xl max-w-2xl md:text-5xl font-bold text-gray-900 mb-3">
           Supporting Women and Children Affected by Family Violence

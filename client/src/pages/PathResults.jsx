@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import dataService from '../services/dataService';
 import { Card, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Input } from '../components/ui/Input';
 import { Phone, Heart, Home, ArrowRight, HandHeart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import DonationSuccessModal from '../components/DonationSuccessModal';
@@ -50,6 +51,7 @@ const PATH_CONFIG = {
 
 export default function PathResults() {
   const location = useLocation();
+  const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const path = (searchParams.get('path') || 'WISDOM').toUpperCase();
   const { t, language } = useLanguage();
@@ -58,6 +60,7 @@ export default function PathResults() {
   const [lastDonation, setLastDonation] = useState(null);
   const [pendingDonation, setPendingDonation] = useState(null); // { item, customAmount }
   const [donations, setDonations] = useState([]);
+  const [customAmount, setCustomAmount] = useState('');
 
   const config = PATH_CONFIG[path] || PATH_CONFIG.WISDOM;
   const Icon = config.icon;
@@ -261,10 +264,12 @@ export default function PathResults() {
           <Card className={`${config.bgColor} border-2 ${config.borderColor}`}>
             <CardContent className="pt-7 pb-6 px-6 text-center">
               <div className="text-3xl font-bold text-foreground mb-1">
-                ${totalAmount.toLocaleString()}
+                {path === 'SERVICE' ? '45' : `$${totalAmount.toLocaleString()}`}
               </div>
               <div className="text-sm text-foreground/70">
-                {language === 'fr' ? 'Total Collecté' : 'Total Raised'}
+                {path === 'SERVICE' 
+                  ? (language === 'fr' ? 'Bénévoles Actifs' : 'Active Volunteers')
+                  : (language === 'fr' ? 'Total Collecté' : 'Total Raised')}
               </div>
             </CardContent>
           </Card>
@@ -272,10 +277,12 @@ export default function PathResults() {
           <Card className={`${config.bgColor} border-2 ${config.borderColor}`}>
             <CardContent className="pt-7 pb-6 px-6 text-center">
               <div className="text-3xl font-bold text-foreground mb-1">
-                {totalDonations}
+                {path === 'SERVICE' ? '120' : totalDonations}
               </div>
               <div className="text-sm text-foreground/70">
-                {language === 'fr' ? 'Dons Totaux' : 'Total Donations'}
+                {path === 'SERVICE' 
+                  ? (language === 'fr' ? 'Heures de Bénévolat' : 'Volunteer Hours')
+                  : (language === 'fr' ? 'Dons Totaux' : 'Total Donations')}
               </div>
             </CardContent>
           </Card>
@@ -283,10 +290,12 @@ export default function PathResults() {
           <Card className={`${config.bgColor} border-2 ${config.borderColor}`}>
             <CardContent className="pt-7 pb-6 px-6 text-center">
               <div className="text-3xl font-bold text-foreground mb-1">
-                {impactItems.length}
+                {path === 'SERVICE' ? '8' : impactItems.length}
               </div>
               <div className="text-sm text-foreground/70">
-                {language === 'fr' ? 'Options de Don' : 'Donation Options'}
+                {path === 'SERVICE' 
+                  ? (language === 'fr' ? 'Opportunités Disponibles' : 'Available Opportunities')
+                  : (language === 'fr' ? 'Options de Don' : 'Donation Options')}
               </div>
             </CardContent>
           </Card>
@@ -312,44 +321,205 @@ export default function PathResults() {
               ? 'Comment Vous Pouvez Aider'
               : 'How You Can Help'}
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {impactItems.map((item, idx) => (
+          
+          {path === 'SERVICE' ? (
+            /* Volunteer Opportunities for SERVICE path */
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Crisis Line Support */}
               <motion.div
-                key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
+                transition={{ delay: 0.1 }}
               >
                 <Card className="h-full hover:shadow-lg hover:-translate-y-1 transition-all">
-                  <CardContent className="pt-7 pb-6 px-6">
+                  <CardContent className="pt-7 pb-6 px-6 h-full flex flex-col">
                     <h3 className="font-bold text-lg text-foreground mb-2">
-                      {language === 'fr' ? item.title_fr : item.title_en}
+                      {language === 'fr' ? 'Support Téléphonique' : 'Crisis Line Support'}
                     </h3>
-                    <p className="text-sm text-foreground/70 mb-4 leading-relaxed">
-                      {language === 'fr'
-                        ? item.description_fr
-                        : item.description_en}
+                    <p className="text-sm text-foreground/70 mb-4 leading-relaxed flex-grow">
+                      {language === 'fr' 
+                        ? 'Offrez un soutien émotionnel aux femmes en crise par téléphone'
+                        : 'Provide emotional support to women in crisis over the phone'}
                     </p>
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-2xl font-bold text-foreground">
-                        ${item.suggested_amount}
+                        4-6h
                       </span>
                       <span className="text-sm text-foreground/60">
-                        {item.impact_unit}
+                        {language === 'fr' ? 'par semaine' : 'per week'}
                       </span>
                     </div>
                     <Button
-                      onClick={() => handleDonate(item)}
-                      className={`w-full bg-gradient-to-r ${config.color} hover:brightness-110 hover:shadow-md text-white transition-all duration-200`}
+                      onClick={() => navigate('/volunteer-schedule')}
+                      className={`w-full bg-gradient-to-r ${config.color} hover:brightness-110 hover:shadow-md text-white transition-all duration-200 mt-auto`}
                     >
-                      {language === 'fr' ? 'Donner Maintenant' : 'Donate Now'}
+                      {language === 'fr' ? 'Devenir Bénévole' : 'Become Volunteer'}
                       <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
                   </CardContent>
                 </Card>
               </motion.div>
-            ))}
-          </div>
+
+              {/* Community Events */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <Card className="h-full hover:shadow-lg hover:-translate-y-1 transition-all">
+                  <CardContent className="pt-7 pb-6 px-6 h-full flex flex-col">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      {language === 'fr' ? 'Événements Communautaires' : 'Community Events'}
+                    </h3>
+                    <p className="text-sm text-foreground/70 mb-4 leading-relaxed flex-grow">
+                      {language === 'fr' 
+                        ? 'Aidez à organiser et gérer des événements de sensibilisation'
+                        : 'Help organize and manage awareness events'}
+                    </p>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-2xl font-bold text-foreground">
+                        2-4h
+                      </span>
+                      <span className="text-sm text-foreground/60">
+                        {language === 'fr' ? 'par événement' : 'per event'}
+                      </span>
+                    </div>
+                    <Button
+                      onClick={() => navigate('/volunteer-schedule')}
+                      className={`w-full bg-gradient-to-r ${config.color} hover:brightness-110 hover:shadow-md text-white transition-all duration-200 mt-auto`}
+                    >
+                      {language === 'fr' ? 'Devenir Bénévole' : 'Become Volunteer'}
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Administrative Support */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <Card className="h-full hover:shadow-lg hover:-translate-y-1 transition-all">
+                  <CardContent className="pt-7 pb-6 px-6 h-full flex flex-col">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      {language === 'fr' ? 'Support Administratif' : 'Administrative Support'}
+                    </h3>
+                    <p className="text-sm text-foreground/70 mb-4 leading-relaxed flex-grow">
+                      {language === 'fr' 
+                        ? 'Assistez avec la paperasse, les dossiers et les tâches de bureau'
+                        : 'Assist with paperwork, filing, and office tasks'}
+                    </p>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-2xl font-bold text-foreground">
+                        3-5h
+                      </span>
+                      <span className="text-sm text-foreground/60">
+                        {language === 'fr' ? 'par semaine' : 'per week'}
+                      </span>
+                    </div>
+                    <Button
+                      onClick={() => navigate('/volunteer-schedule')}
+                      className={`w-full bg-gradient-to-r ${config.color} hover:brightness-110 hover:shadow-md text-white transition-all duration-200 mt-auto`}
+                    >
+                      {language === 'fr' ? 'Devenir Bénévole' : 'Become Volunteer'}
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+          ) : (
+            /* Donation Cards for other paths */
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {impactItems.map((item, idx) => (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                >
+                  <Card className="h-full hover:shadow-lg hover:-translate-y-1 transition-all">
+                    <CardContent className="pt-7 pb-6 px-6 h-full flex flex-col">
+                      <h3 className="font-bold text-lg text-foreground mb-2">
+                        {language === 'fr' ? item.title_fr : item.title_en}
+                      </h3>
+                      <p className="text-sm text-foreground/70 mb-4 leading-relaxed flex-grow">
+                        {language === 'fr'
+                          ? item.description_fr
+                          : item.description_en}
+                      </p>
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-2xl font-bold text-foreground">
+                          ${item.suggested_amount}
+                        </span>
+                        <span className="text-sm text-foreground/60">
+                          {item.impact_unit}
+                        </span>
+                      </div>
+                      <Button
+                        onClick={() => handleDonate(item)}
+                        className={`w-full bg-gradient-to-r ${config.color} hover:brightness-110 hover:shadow-md text-white transition-all duration-200 mt-auto`}
+                      >
+                        {language === 'fr' ? 'Donner Maintenant' : 'Donate Now'}
+                        <ArrowRight className="ml-2 w-4 h-4" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+              
+              {/* Custom Amount Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: impactItems.length * 0.1 }}
+              >
+                <Card className={`h-full ${config.bgColor} border-2 ${config.borderColor}`}>
+                  <CardContent className="pt-7 pb-6 px-6 h-full flex flex-col">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      {language === 'fr' ? 'Montant Personnalisé' : 'Custom Amount'}
+                    </h3>
+                    <p className="text-sm text-foreground/70 mb-4 leading-relaxed flex-grow">
+                      {language === 'fr' 
+                        ? 'Choisissez votre propre montant pour soutenir cette cause'
+                        : 'Choose your own amount to support this cause'}
+                    </p>
+                    <div className="mb-4">
+                      <label className="text-sm font-medium text-foreground/80 block mb-2">
+                        {language === 'fr' ? 'Montant ($)' : 'Amount ($)'}
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/50">$</span>
+                        <Input
+                          type="number"
+                          placeholder="0"
+                          value={customAmount}
+                          onChange={(e) => setCustomAmount(e.target.value)}
+                          className="pl-7 border-foreground/20 focus:border-primary focus:ring-primary/30"
+                          min="1"
+                        />
+                      </div>
+                    </div>
+                    <Button
+                      onClick={() => {
+                        if (customAmount && impactItems[0]) {
+                          handleDonate(impactItems[0], parseInt(customAmount));
+                          setCustomAmount('');
+                        }
+                      }}
+                      disabled={!customAmount || parseInt(customAmount) < 1}
+                      className={`w-full bg-gradient-to-r ${config.color} hover:brightness-110 hover:shadow-md text-white transition-all duration-200 mt-auto`}
+                    >
+                      {language === 'fr' ? 'Donner maintenant' : 'Donate now'}
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+          )}
         </div>
 
         {/* Community goals (same path) */}
@@ -382,7 +552,7 @@ export default function PathResults() {
                 ? "Chaque don contribue directement à aider les femmes et les enfants à trouver la sécurité, la guérison et l'espoir. Merci de faire partie de cette mission."
                 : 'Every donation directly helps women and children find safety, healing, and hope. Thank you for being part of this mission.'}
             </p>
-            <Button
+            {/* <Button
               onClick={() =>
                 document
                   .getElementById('ways-to-help')
@@ -393,7 +563,7 @@ export default function PathResults() {
             >
               {language === 'fr' ? 'Faire un Don' : 'Make a Donation'}
               <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
+            </Button> */}
           </CardContent>
         </Card>
       </div>

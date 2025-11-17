@@ -303,16 +303,19 @@ export default function Header() {
       </div>
 
       {/* Mobile Sidebar Menu */}
-      {isMobileMenuOpen && (
-        <>
-          {/* Overlay */}
-          <div 
-            className="md:hidden fixed inset-0 bg-black/50 z-40"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-          
-          {/* Sidebar */}
-          <div className="md:hidden fixed top-0 right-0 h-screen w-full max-w-sm bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out">
+      <>
+        {/* Overlay */}
+        <div 
+          className={`md:hidden fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ease-in-out ${
+            isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          }`}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+        
+        {/* Sidebar */}
+        <div className={`md:hidden fixed top-0 right-0 h-screen w-full max-w-sm bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}>
             <div className="flex flex-col h-full">
               {/* Sidebar Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
@@ -549,7 +552,6 @@ export default function Header() {
             </div>
           </div>
         </>
-      )}
     </header>
     </>
   );
