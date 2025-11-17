@@ -116,7 +116,7 @@ export default function ImpactMetrics() {
                 viewport={{ once: false, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
-                <Card className="text-center hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 bg-background/90 backdrop-blur-sm border border-primary/10">
+                <Card className="text-center hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 bg-background/90 backdrop-blur-sm border border-primary/10 min-h-[220px] flex flex-col justify-center">
                   <CardContent className="p-6">
                     <motion.div
                       initial={{ scale: 0 }}
