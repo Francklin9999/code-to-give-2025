@@ -171,10 +171,13 @@ export async function checkAndAwardBadges(user) {
   ]);
 
   // Fetch user team:
-
-  const teamRes = await fetchJson(`${API_URL}/teams/${user.team_id}`);
-  const teams = teamRes.team ? teamRes.team : {};
-
+  let teams = {};
+  try {
+    const teamRes = await fetchJson(`${API_URL}/teams/${user.team_id}`);
+    const teams = teamRes.team ? teamRes.team : {};
+  } catch (err) {
+    console.error('Failed to fetch user team', err);
+  }
 
   const donations = donationsRes.donations || [];
   const referrals = referralsRes.referrals || [];
