@@ -8,7 +8,6 @@ import {
   Twitter,
   Youtube,
   Scale,
-  Palette,
   GraduationCap,
   Heart,
   ShoppingBag,

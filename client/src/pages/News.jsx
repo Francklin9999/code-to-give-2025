@@ -15,7 +15,23 @@ import {
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-const SHIELD_BASE_URL = 'http://shieldofathena.com';
+// Import local news images
+import img2018InternationalWomensDay from '../assets/news/2018-international-womens-day-showcase.jpg';
+import img2018InternationalWomensDayGallery1 from '../assets/news/2018-international-womens-day-gallery-1.jpg';
+import img2018InternationalWomensDayGallery2 from '../assets/news/2018-international-womens-day-gallery-2.jpg';
+import img2018InternationalWomensDayGallery3 from '../assets/news/2018-international-womens-day-gallery-3.jpg';
+import img2018UnitedNationsDelegation from '../assets/news/2018-united-nations-delegation.jpg';
+import img2018UnitedNationsDelegationGallery1 from '../assets/news/2018-united-nations-delegation-gallery-1.jpg';
+import img2018VolunteerTraining from '../assets/news/2018-volunteer-training.jpg';
+import img2018VolunteerTrainingGallery1 from '../assets/news/2018-volunteer-training-gallery-1.jpg';
+import img2018VolunteerTrainingGallery2 from '../assets/news/2018-volunteer-training-gallery-2.jpg';
+import img2018VolunteerTrainingGallery3 from '../assets/news/2018-volunteer-training-gallery-3.jpg';
+import img2018VolunteerTrainingGallery4 from '../assets/news/2018-volunteer-training-gallery-4.jpg';
+import img2017AnnualArtAuction from '../assets/news/2017-annual-art-auction.jpg';
+import img2017MontrealAlouettes from '../assets/news/2017-montreal-alouettes.jpg';
+import img2017CityOfLavalDonation from '../assets/news/2017-city-of-laval-donation.jpg';
+import img2017SwingIntoSpring from '../assets/news/2017-swing-into-spring.jpg';
+import img2017AvonCanadaDonation from '../assets/news/2017-avon-canada-donation.jpg';
 
 const newsItems = [
   {
@@ -26,11 +42,11 @@ const newsItems = [
     category: 'Community Event',
     description:
       'The Shield of Athena Family Services would like to invite you to our event in honour of International Women\'s Day that will be held on the 22nd of March. The event will showcase the art of women victims of conjugal and family violence that has been done in creative art therapy groups. There will also be a presentation of work done by participants in various women\'s centers such as, Le Centre dynamique des femmes de Laval, l\'Association du troisieme age Filia and others. It would be lovely to see you there. As space is limited please RSVP with the number of people coming.',
-    image: `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u10/community-english.jpg`,
+    image: img2018InternationalWomensDay,
     gallery: [
-      `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u10/victim-english.jpg`,
-      `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u10/english.jpg`,
-      `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/annonce_revisee._6368_n.jpg`
+      img2018InternationalWomensDayGallery1,
+      img2018InternationalWomensDayGallery2,
+      img2018InternationalWomensDayGallery3
     ]
   },
   {
@@ -41,8 +57,8 @@ const newsItems = [
     category: 'Recognition',
     description:
       'We are so proud of our Executive Director, Melpa Kamateros, and Co-ordinator, Maud Pontel, for being part of the Canadian Women\'s Delegation and presenting on "Equality for Rural & remote Women in Canada" for the sixty-second session of the Commission on the Status of Women taking place at the United Nations Headquarters in New York from 12 to 23 March 2018.',
-    image: `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/melpa_maud._7024_n.jpg`,
-    gallery: [`${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/melpa._2256_n.jpg`]
+    image: img2018UnitedNationsDelegation,
+    gallery: [img2018UnitedNationsDelegationGallery1]
   },
   {
     id: '2018-volunteer-training',
@@ -52,12 +68,12 @@ const newsItems = [
     category: 'Community Support',
     description:
       'Thank you to all the participants of this year volunteer training workshop and your enthusiasm to volunteer your time and help out for the benefit of women and children victims of abuse.',
-    image: `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/20180208._vol_1.jpg`,
+    image: img2018VolunteerTraining,
     gallery: [
-      `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/20180208._vol_2.jpg`,
-      `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/20180208._vol_3.jpg`,
-      `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/20180208._vol_5.jpg`,
-      `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/20180208._vol_6.jpg`
+      img2018VolunteerTrainingGallery1,
+      img2018VolunteerTrainingGallery2,
+      img2018VolunteerTrainingGallery3,
+      img2018VolunteerTrainingGallery4
     ]
   },
   {
@@ -68,7 +84,7 @@ const newsItems = [
     category: 'Fundraising',
     description:
       'We would like to thank Madame Sophie Gregoire Trudeau for her ongoing support and for the lovely wishes she sent us for our 23rd Annual Art auction. Thank you to Elias Makos and Breakfast Television, Global Television, and The Suburban for their support of our cause. The Shield\'s 23rd Annual Art Auction was a great event for a great cause. Thank you to everyone who supports us!',
-    image: `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/2017._auction._0032_n.jpg`
+    image: img2017AnnualArtAuction
   },
   {
     id: '2017-montreal-alouettes',
@@ -78,7 +94,7 @@ const newsItems = [
     category: 'Community Outreach',
     description:
       'Thank you to the Montreal Alouettes for inviting us to speak about family violence and its consequences even in the workplace. It was great to also present again with CFL player J.R. Larose.',
-    image: `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/2017._formation_alouette._2243_n.jpg`
+    image: img2017MontrealAlouettes
   },
   {
     id: '2017-city-of-laval-donation',
@@ -88,7 +104,7 @@ const newsItems = [
     category: 'Partnership',
     description:
       'Thank you to the city of Laval for their amazing support and donation of $200,000 for the establishment of a 2nd step shelter for victims of family violence.',
-    image: `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/2017._maire_de_laval._don_de_200000._2741_n.jpg`,
+    image: img2017CityOfLavalDonation,
     link: 'http://www.lechodelaval.ca/actualites/politique/314672/200000$-de-soutien-pour-projet-le-bouclier-dathena'
   },
   {
@@ -99,7 +115,7 @@ const newsItems = [
     category: 'Campaign Launch',
     description:
       'Close to 240 people were gathered at the Shield of Athena\'s "Swing into Spring" event at the historic Rialto Theatre. The fabulous show, coordinated by Sheldon Kagan and replete with a Las Vegas dance, song, and musical revue, launched the beginning of the Capital Campaign for the new Second Step Resource for women and children in Laval.',
-    image: `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/photos._rialto._0351_n.jpg`,
+    image: img2017SwingIntoSpring,
     link: 'https://www.youtube.com/watch?v=gUE3mZEhjp8&feature=youtu.be'
   },
   {
@@ -110,7 +126,7 @@ const newsItems = [
     category: 'Partnership',
     description:
       'A special thank you to the Avon Team once again for their generosity, in particular Goran Petrovic, Natalie Laurence, and Elizabeth Munro. This was truly an unforgettable day as Avon Canada helped the Shield of Athena secure a new van for services to women and children.',
-    image: `${SHIELD_BASE_URL}/sites/shieldofathena.com/files/u15/2017._photo._donation_avon._0898_o.jpg`
+    image: img2017AvonCanadaDonation
   }
 ];
 

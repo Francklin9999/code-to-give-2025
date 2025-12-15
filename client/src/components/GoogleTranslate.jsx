@@ -40,7 +40,7 @@ const GoogleTranslate = forwardRef((props, ref) => {
         {
           pageLanguage: 'en',
           includedLanguages:
-            'en,fr,es,de,it,pt,zh-CN,ja,ko,ar,hi,ru,pl,nl,sv,da,fi,no,tr,vi,th,id,ms,uk,cs,ro,hu,el,he,fa,bn,ta,te,ml,kn,gu,pa',
+            'en,fr,es,de,it,hy,pt,zh-CN,ja,ko,ar,hi,ru,pl,nl,sv,da,fi,no,tr,vi,th,id,ms,uk,cs,ro,hu,el,fa,bn,ur,ta,te,ml,kn,gu,pa',
           layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
           autoDisplay: false,
           multilanguagePage: true,

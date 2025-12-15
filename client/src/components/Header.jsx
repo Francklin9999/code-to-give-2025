@@ -38,7 +38,6 @@ const languages = [
   { code: 'ro', name: 'Română', flag: '🇷🇴' },
   { code: 'hu', name: 'Magyar', flag: '🇭🇺' },
   { code: 'el', name: 'Ελληνικά', flag: '🇬🇷' },
-  { code: 'he', name: 'עברית', flag: '🇮🇱' },
   { code: 'fa', name: 'فارسی', flag: '🇮🇷' },
   { code: 'bn', name: 'বাংলা', flag: '🇧🇩' },
   { code: 'ur', name: 'اردو', flag: '🇵🇰' },

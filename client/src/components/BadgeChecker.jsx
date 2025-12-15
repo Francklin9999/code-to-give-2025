@@ -174,7 +174,7 @@ export async function checkAndAwardBadges(user) {
   let teams = {};
   try {
     const teamRes = await fetchJson(`${API_URL}/teams/${user.team_id}`);
-    const teams = teamRes.team ? teamRes.team : {};
+    teams = teamRes.team ? teamRes.team : {};
   } catch (err) {
     console.error('Failed to fetch user team', err);
   }
